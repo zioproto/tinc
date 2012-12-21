@@ -104,22 +104,6 @@ bool add_subnet_h(connection_t *c) {
 		return true;
 	}
 
-	/* In tunnel server mode, we should already know all allowed subnets */
-
-	if(tunnelserver) {
-		logger(LOG_WARNING, "Ignoring unauthorized %s from %s (%s): %s",
-				"ADD_SUBNET", c->name, c->hostname, subnetstr);
-		return true;
-	}
-
-	/* Ignore if strictsubnets is true, but forward it to others */
-
-	if(strictsubnets) {
-		logger(LOG_WARNING, "Ignoring unauthorized %s from %s (%s): %s",
-				"ADD_SUBNET", c->name, c->hostname, subnetstr);
-		forward_request(c);
-		return true;
-	}
 
 	/* If everything is correct, add the subnet to the list of the owner */
 
